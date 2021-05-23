@@ -1,0 +1,12 @@
+﻿
+
+
+@model IEnumerable<Inspections_Test.Models.OtherOption>
+
+<select id="other" name="OtherOption">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+

@@ -1,0 +1,10 @@
+﻿
+@model IEnumerable<Inspections_Test.Models.Subsection>
+
+<select id="subsection" name="SubSection">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+

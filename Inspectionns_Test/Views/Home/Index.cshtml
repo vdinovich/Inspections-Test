@@ -1,0 +1,212 @@
+﻿@model Inspections_Test.Models.InspectionInfo
+
+@{
+    ViewBag.Title = "Home Page";
+
+}
+<h1 style="text-align:center;font-family:'Palatino Linotype'">MOH Inspections Only</h1>
+<h2 style="text-align:center;color:green">@ViewBag.Success</h2>
+@using (Html.BeginForm())
+{
+<div style="">
+    <h1 style="font-family:'Palatino Linotype';margin:0 0 0 0;margin-top:22px">Inspection Information</h1>
+    <div class="row" style="border:2px solid blue;padding:32px;width:1400px;margin:auto">
+        <div class="col-sm-3">
+            <div class="">
+                <label>Inspection Number</label>
+                @Html.TextBoxFor(model => model.InspectNumber, new { @class = "form-control", placeholder = "Inspection Number" })
+            </div>
+            <div class="">
+                <label>Type Of Inspection</label>
+                @Html.DropDownListFor(model => model.InspectType, ViewBag.List[0] as SelectList, new { @class = "form-control" })
+            </div>
+            <div class="">
+                <label>Home</label>
+                @Html.DropDownListFor(model => model.HomeId, ViewBag.List[1] as SelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="">
+                <label>Report Date</label>
+                @Html.EditorFor(model => model.ReportDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="">
+                <label style="">Last date of inspection</label>
+                @Html.EditorFor(model => model.LastDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="" style="font-size:large;float:right;margin-top:15px">
+                <label>No findings</label><br /> @Html.CheckBoxFor(model => model.NoFindings, new { style = "font-size:large;margin:0 0 0 45px" })
+            </div>
+        </div>
+    </div>
+</div>
+    <br />
+    <br />
+    <br />
+    <div class="">
+        <h1 style="font-family:'Palatino Linotype';margin:0 0 0 0;margin-top:22px">Non-Compliance List</h1>
+        <div style="margin-top:12px" class="row">
+
+            @for (var i = 0; i < ViewBag.CountForm; i++)
+            {
+                @Html.Partial("View");<br /><br /><br />
+            }
+
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div style="float:right">
+        <input name="btn-add" type="submit" id="addnewCompl" value="Add New Non-Compliance" class="btn btn-success" />
+    </div>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $(function () {
+            $('#addnewCompl').oncli
+        });
+    // drop 1:
+        $(function () {
+        $('#state').change(function()
+        {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItem")/' + id,
+                success: function (data) {
+
+                    //
+                    $('#section').replaceWith(data);
+                     $('#section').change(function () {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetSub1")/' + id,
+                success: function (data) {
+                    $('#subsection').replaceWith(data);
+                      $('#subsection').change(function () {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetSub2")/' + id,
+                success: function (data) {
+                    $('#other').replaceWith(data);
+                }
+            });
+        });
+                }
+            });
+        });
+                }
+            });
+        });
+        });
+
+    // drop 2:
+    $(function () {
+
+    });
+
+    // drop 3:
+    $(function () {
+
+    });
+    </script>
+    <div style="width:200px;margin:auto">
+        <input type="submit" name="btn-submit" value="Submit" class="btn btn-primary"/>
+    </div>
+}
+
+
+
+<style>
+    #section {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+        #section:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+    #subsection {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+        #subsection:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+    #other {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    }
+
+        #other:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+</style>
